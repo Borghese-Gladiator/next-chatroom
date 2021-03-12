@@ -1,11 +1,20 @@
+// libraries
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const port = process.env.PORT || 4001;
-const index = require("./routes/index");
+const cors = require('cors')
 const moment = require("moment");
+
+// constants
+const port = process.env.PORT || 4001;
 const app = express();
+const index = require("./routes/index");
+
+// middleware 
+app.use(cors());
 app.use(index);
+
+// initialize app
 const server = http.createServer(app);
 const io = socketIo(server);
 
