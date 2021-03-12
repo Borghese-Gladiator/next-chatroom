@@ -6,8 +6,13 @@ import socketIOClient from "socket.io-client";
 import userGen from "username-generator"
 import { Button, Input } from 'reactstrap';
 
+import getConfig from 'next/config'
+
+const {publicRuntimeConfig} = getConfig()
+const {NODE_ENV, API_URL} = publicRuntimeConfig;
+
 // client-side
-const ENDPOINT = "http://127.0.0.1:4001";
+const ENDPOINT = NODE_ENV === "production" ? API_URL : "http://127.0.0.1:4001";
 const socket = socketIOClient(ENDPOINT, {
   withCredentials: true,
   extraHeaders: {
