@@ -11,6 +11,41 @@ const socket = socketIOClient(ENDPOINT);
 
 
 export default function Home() {
+
+  const [user, setUser] = useState({
+    usersList: null
+  });
+  const [msg, setMsg] = useState("");
+  const [recMsg, setRecMsg] = useState({
+    listMsg: []
+  });
+  const [loggedUser, setLoggedUser] = useState();
+
+  useEffect(() => {
+    // subscribe a new user
+    socket.emit("login", userGen.generateUsername());
+    // list of connected users
+    socket.on("users", data => {
+      setUser({ usersList: JSON.parse(data) })
+    });
+    // get the logged user
+    socket.on("connecteduser", data => {
+      setLoggedUser(JSON.parse(data));
+    });
+
+    // we get the messages
+    socket.on("getMsg", data => {
+      let listMessages = recMsg.listMsg;
+      listMessages.push(JSON.parse(data));
+      setRecMsg({ listMsg: listMessages });
+    });
+  }, []);
+
+  // to send a message
+  const sendMessage = () => {
+    socket.emit("sendMsg", JSON.stringify({ id: loggedUser.id, msg: msg }));
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,56 +54,33 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <h3 className="d-flex justify-content-center"> Connected users : {user.usersList?.length} </h3>
+        <table className="table">
+          <thead>
+            <tr>
+              <th> User name </th>
+              <th> Connection Date </th>
+            </tr>
+          </thead>
+          <tbody>
+            {user.usersList?.map(user => {
+              return (<tr key={user.id}>
+                <td> {user.userName} </td>
+                <td> {user.connectionTime} </td>
+              </tr>)
+            })}
+          </tbody>
+        </table>
+        <h3 className="d-flex justify-content-center"> User : {loggedUser?.userName} </h3>
+        <div style={{ borderStyle: "inset" }}>
+          <h2 className="d-flex justify-content-center"> Chat </h2>
+          {recMsg.listMsg?.map((msgInfo, index) => { return (<div className="d-flex justify-content-center" key={index}> <b>{msgInfo.userName} </b> :  {msgInfo.msg} <small style={{ marginLeft: "18px", color: "blue", marginTop: "5px" }}> {msgInfo.time} </small> </div>) })}
+        </div>
+        <div className="d-flex justify-content-center">
+          <Input style={{ width: "300px", display: "inline" }} id="inputmsg" onChange={(event) => setMsg(event.target.value)} />
+          <Button className="btn btn-info" id="btnmsg" onClick={() => { sendMessage() }}> Send </Button>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   )
 }
