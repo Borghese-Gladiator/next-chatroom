@@ -8,7 +8,7 @@ Created a Next.js/Node.js SocketIO Chatroom
 ## Deploying App
 - Deployed Next.js client to Netlify
   - base directory: `/client/`
-  - build command: `npm run export && npm run build`
+  - build command: `npm run build && npm run export`
   - publish directory: `/client/build`
   - Environment Variables:
     - set `API_URL: heroku_url`
