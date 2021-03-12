@@ -2,7 +2,6 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const cors = require('cors')
 const moment = require("moment");
 
 // constants
@@ -11,8 +10,12 @@ const app = express();
 const index = require("./routes/index");
 
 // middleware 
-app.use(cors());
 app.use(index);
+// proxy to add header to stop cors errors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // initialize app
 const server = http.createServer(app);
