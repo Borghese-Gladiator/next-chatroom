@@ -1,7 +1,7 @@
 # Next-Chatroom
 Created a Next.js/Node.js SocketIO Chatroom
 
-- Initialized chatroom projec with tutorial here: [https://dev.to/kamo/simple-react-based-chat-application-1p0](https://dev.to/kamo/simple-react-based-chat-application-1p0)
+- Initialized chatroom project with tutorial here: [https://dev.to/kamo/simple-react-based-chat-application-1p0](https://dev.to/kamo/simple-react-based-chat-application-1p0)
 - Fixed WebSocket CORS here: [https://socket.io/docs/v3/handling-cors/](https://socket.io/docs/v3/handling-cors/)
 - Deployed to Heroku with article here: [https://jtway.co/deploying-subdirectory-projects-to-heroku-f31ed65f3f2](https://jtway.co/deploying-subdirectory-projects-to-heroku-f31ed65f3f2)
 
