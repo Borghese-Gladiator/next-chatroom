@@ -21,12 +21,13 @@ app.use((req, res, next) => {
 const server = http.createServer(app);
 const io = socketIo(server, { // websocket CORS
   cors: {
-    origin: process.env.NODE_ENV === "production" ? "https://nextjs-nodejs-chatroom.netlify.app/" : "http://localhost:3000",
+    origin: "https://nextjs-nodejs-chatroom.netlify.app/",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true
   }
 });
+// process.env.NODE_ENV === "production" ? "https://nextjs-nodejs-chatroom.netlify.app/" : "http://localhost:3000",
 
 let users = [];
 io.on("connection", (socket) => {
