@@ -6,8 +6,14 @@ import socketIOClient from "socket.io-client";
 import userGen from "username-generator"
 import { Button, Input } from 'reactstrap';
 
+// client-side
 const ENDPOINT = "http://127.0.0.1:4001";
-const socket = socketIOClient(ENDPOINT);
+const socket = socketIOClient(ENDPOINT, {
+  withCredentials: true,
+  extraHeaders: {
+    "my-custom-header": "abcd"
+  }
+});
 
 
 export default function Home() {

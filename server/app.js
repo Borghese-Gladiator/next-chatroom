@@ -19,8 +19,14 @@ app.use((req, res, next) => {
 
 // initialize app
 const server = http.createServer(app);
-const io = socketIo(server);
-
+const io = socketIo(server, { // websocket CORS
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
 
 let users = [];
 io.on("connection", (socket) => {
