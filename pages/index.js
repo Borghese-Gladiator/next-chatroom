@@ -1,6 +1,15 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
+import React, { useState, useEffect } from "react";
+import socketIOClient from "socket.io-client";
+import userGen from "username-generator"
+import { Button, Input } from 'reactstrap';
+
+const ENDPOINT = "http://127.0.0.1:4001";
+const socket = socketIOClient(ENDPOINT);
+
+
 export default function Home() {
   return (
     <div className={styles.container}>
