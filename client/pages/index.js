@@ -15,7 +15,6 @@ const socket = socketIOClient(ENDPOINT, {
   }
 });
 
-
 export default function Home() {
 
   const [user, setUser] = useState({
@@ -55,8 +54,9 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>NextJS/NodeJS SocketIO Chatroom</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="An example of a NextJS + NodeJS + SocketIO chatroom."></meta>
       </Head>
 
       <main className={styles.main}>
